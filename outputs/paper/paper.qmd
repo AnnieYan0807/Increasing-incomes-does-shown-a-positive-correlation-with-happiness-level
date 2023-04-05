@@ -1,13 +1,12 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Does financial ability affect our happiness?"
+subtitle: "Relationship between income and happiness"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+  - Annie Yan
+thanks: "Code and data are available at: https://github.com/AnnieYan0807/USGSS-analysis-individual-"
 date: "`r Sys.time()`"
 date-format: "D MMMM YYYY"
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "This research paper investigates the relationship between income and happiness, specifically examining the impact of family income and personal income on subjective well-being. Through a thorough review of existing literature and empirical analysis, we explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. "
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -24,50 +23,16 @@ library(palmerpenguins)
 
 
 # Introduction
+"Life, liberty, and the pursuit of happiness" - these words, enshrined in the Declaration of Independence of the United States, encapsulate a fundamental human aspiration. The pursuit of happiness has been a timeless and universal quest, driving individuals to seek fulfillment and well-being in various facets of their lives. One significant factor that has often been associated with happiness is income, particularly in the context of family and personal finances.
 
-You can and should cross-reference sections and sub-sections. For instance, @sec-data and @sec-first-point. 
+In today's society, income is often viewed as a crucial determinant of one's standard of living, social status, and overall well-being. It is widely believed that a higher level of income can lead to increased happiness and satisfaction with life. The idea of financial prosperity as a means to achieving happiness has become deeply ingrained in modern culture, as individuals strive to earn more, save more, and spend more to improve their quality of life.
 
+However, the relationship between income and happiness is complex and multifaceted. While it is evident that money plays a significant role in meeting basic needs such as food, shelter, and education, research on the link between income and happiness has yielded mixed findings. Some studies suggest that higher income levels are indeed associated with higher levels of happiness, as increased financial resources provide opportunities for material comforts, greater access to healthcare and education, and enhanced social experiences. On the other hand, other research indicates that the relationship between income and happiness may not be as straightforward, with diminishing returns on happiness as income levels rise, and other factors such as personal values, social connections, and life circumstances also influencing well-being.
 
+In this research paper, we delve into the intriguing question of whether a higher level of income is related to a higher level of happiness, specifically examining the impact of both family income and personal income on subjective well-being. We seek to explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. Through a thorough review of existing literature and empirical analysis, we aim to shed light on this complex relationship and contribute to the ongoing discourse on the pursuit of happiness in the context of income. By examining both family and personal income, we hope to provide a comprehensive understanding of how different aspects of income may relate to happiness, and whether money does indeed change the pursuit of happiness. Are financial riches the key to unlocking the door to happiness, or is the relationship more nuanced than meets the eye?"
 
 # Data {#sec-data}
 
-Our data is of penguins (@fig-bills).
-
-```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
-#| echo: false
-
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
-
-Talk more about it.
-
-Also bills and their average (@fig-billssssss). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work.)
-
-```{r}
-#| label: fig-billssssss
-#| fig-cap: More bills of penguins
-#| echo: false
-#| fig-width: 8
-#| fig-height: 4
-
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
-
-Talk way more about it. 
 
 
 
@@ -98,7 +63,6 @@ If my paper were 10 pages, then should be be at least 2.5 pages. The discussion 
 
 ## Weaknesses and next steps
 
-Weaknesses and next steps should also be included.
 
 \newpage
 

@@ -23,15 +23,24 @@ library(palmerpenguins)
 
 
 # Introduction
-"Life, liberty, and the pursuit of happiness" - these words, enshrined in the Declaration of Independence of the United States, encapsulate a fundamental human aspiration. The pursuit of happiness has been a timeless and universal quest, driving individuals to seek fulfillment and well-being in various facets of their lives. One significant factor that has often been associated with happiness is income, particularly in the context of family and personal finances.
+"Life, liberty, and the pursuit of happiness" are words enshrined in the Declaration of Independence of the United States, encapsulating a fundamental human aspiration. The pursuit of happiness has been a timeless and universal quest, driving individuals to seek fulfillment and well-being in various facets of their lives. One significant factor that has often been associated with happiness is income, particularly in the context of family and personal finances.
 
-In today's society, income is often viewed as a crucial determinant of one's standard of living, social status, and overall well-being. It is widely believed that a higher level of income can lead to increased happiness and satisfaction with life. The idea of financial prosperity as a means to achieving happiness has become deeply ingrained in modern culture, as individuals strive to earn more, save more, and spend more to improve their quality of life.
+In today's society, income is often viewed as a crucial determinant of one's standard of living, social status, and overall well-being. It is widely believed that a higher level of income can lead to increased happiness and satisfaction with life. However, the relationship between income and happiness is complex and multifaceted. While it is evident that money plays a significant role in meeting basic needs such as food, shelter, and education, research on the link between income and happiness has yielded mixed findings. Some studies suggest that higher income levels are indeed associated with higher levels of happiness, as increased financial resources provide opportunities for material comforts, greater access to healthcare and education, and enhanced social experiences. () On the other hand, other research indicates that the relationship between income and happiness may not be as straightforward, with diminishing returns on happiness as income levels rise, and other factors such as personal values, social connections, and life circumstances also influencing well-being.()
 
-However, the relationship between income and happiness is complex and multifaceted. While it is evident that money plays a significant role in meeting basic needs such as food, shelter, and education, research on the link between income and happiness has yielded mixed findings. Some studies suggest that higher income levels are indeed associated with higher levels of happiness, as increased financial resources provide opportunities for material comforts, greater access to healthcare and education, and enhanced social experiences. On the other hand, other research indicates that the relationship between income and happiness may not be as straightforward, with diminishing returns on happiness as income levels rise, and other factors such as personal values, social connections, and life circumstances also influencing well-being.
-
-In this research paper, we delve into the intriguing question of whether a higher level of income is related to a higher level of happiness, specifically examining the impact of both family income and personal income on subjective well-being. We seek to explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. Through a thorough review of existing literature and empirical analysis, we aim to shed light on this complex relationship and contribute to the ongoing discourse on the pursuit of happiness in the context of income. By examining both family and personal income, we hope to provide a comprehensive understanding of how different aspects of income may relate to happiness, and whether money does indeed change the pursuit of happiness. Are financial riches the key to unlocking the door to happiness, or is the relationship more nuanced than meets the eye?"
+This research paper delves into the intriguing question of whether a higher level of income is related to a higher level of happiness, specifically examining the impact of both family income and personal income on subjective well-being. We seek to explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. 
 
 # Data {#sec-data}
+
+## Data Source
+The General Social Survey (GSS) is a national survey conducted in the United States of America that aims to better understand trends in the American adult population's social characteristics and attitudes to better inform research and public policy [@cite3]. Beginning in 1972, this interview-based survey is conducted biennially on five key themes: gender and marriage, current affairs, civil liberties, politics, and religion and spirituality [@cite4]. 
+
+## Methodology
+
+## Variable of Interests
+
+## Overview of Data
+
+## Data Analysis 
 
 
 
@@ -64,19 +73,16 @@ If my paper were 10 pages, then should be be at least 2.5 pages. The discussion 
 ## Weaknesses and next steps
 
 
+
+
+
 \newpage
-
 \appendix
-
 # Appendix {-}
 
 
-# Additional details
-
 
 \newpage
-
-
 # References
 
 

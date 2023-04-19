@@ -1,0 +1,88 @@
+---
+title: "Does financial ability affect our happiness?"
+subtitle: "Relationship between income and happiness"
+author: 
+  - Annie Yan
+thanks: "Code and data are available at: https://github.com/AnnieYan0807/USGSS-analysis-individual-"
+date: "`r Sys.time()`"
+date-format: "D MMMM YYYY"
+abstract: "This research paper investigates the relationship between income and happiness, specifically examining the impact of family income and personal income on subjective well-being. Through a thorough review of existing literature and empirical analysis, we explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. "
+format: pdf
+number-sections: true
+bibliography: references.bib
+---
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+```
+
+
+# Introduction
+"Life, liberty, and the pursuit of happiness" are words enshrined in the Declaration of Independence of the United States, encapsulating a fundamental human aspiration. The pursuit of happiness has been a timeless and universal quest, driving individuals to seek fulfillment and well-being in various facets of their lives. One significant factor that has often been associated with happiness is income, particularly in the context of family and personal finances.
+
+In today's society, income is often viewed as a crucial determinant of one's standard of living, social status, and overall well-being. It is widely believed that a higher level of income can lead to increased happiness and satisfaction with life. However, the relationship between income and happiness is complex and multifaceted. While it is evident that money plays a significant role in meeting basic needs such as food, shelter, and education, research on the link between income and happiness has yielded mixed findings. Some studies suggest that higher income levels are indeed associated with higher levels of happiness, as increased financial resources provide opportunities for material comforts, greater access to healthcare and education, and enhanced social experiences. () On the other hand, other research indicates that the relationship between income and happiness may not be as straightforward, with diminishing returns on happiness as income levels rise, and other factors such as personal values, social connections, and life circumstances also influencing well-being.()
+
+This research paper delves into the intriguing question of whether a higher level of income is related to a higher level of happiness, specifically examining the impact of both family income and personal income on subjective well-being. We seek to explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. 
+
+# Data {#sec-data}
+
+## Data Source
+The General Social Survey (GSS) is a national survey conducted in the United States of America that aims to better understand trends in the American adult population's social characteristics and attitudes to better inform research and public policy [@cite3]. Beginning in 1972, this interview-based survey is conducted biennially on five key themes: gender and marriage, current affairs, civil liberties, politics, and religion and spirituality [@cite4]. 
+
+## Methodology
+
+## Variable of Interests
+
+## Overview of Data
+
+## Data Analysis 
+
+
+
+
+# Model
+
+$$
+Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}
+$$ {#eq-bayes}
+
+@eq-bayes seems useful, eh?
+
+Here's a dumb example of how to use some references: In paper we run our analysis in `R` [@citeR]. We also use the `tidyverse` which was written by @thereferencecanbewhatever If we were interested in baseball data then @citeLahman could be useful. 
+
+We can use maths by including latex between dollar signs, for instance $\theta$.
+
+
+# Results
+
+# Discussion
+
+## First discussion point {#sec-first-point}
+
+If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+
+## Second discussion point
+
+## Third discussion point
+
+## Weaknesses and next steps
+
+
+
+
+
+\newpage
+\appendix
+# Appendix {-}
+
+
+
+\newpage
+# References
+
+

@@ -27,7 +27,7 @@ library(palmerpenguins)
 
 In today's society, income is often viewed as a crucial determinant of one's standard of living, social status, and overall well-being. It is widely believed that a higher level of income can lead to increased happiness and satisfaction with life. However, the relationship between income and happiness is complex and multifaceted. While it is evident that money plays a significant role in meeting basic needs such as food, shelter, and education, research on the link between income and happiness has yielded mixed findings. Some studies suggest that higher income levels are indeed associated with higher levels of happiness, as increased financial resources provide opportunities for material comforts, greater access to healthcare and education, and enhanced social experiences. [@cite10] On the other hand, other research indicates that the relationship between income and happiness may not be as straightforward, with diminishing returns on happiness as income levels rise reaches threshold [@cite8], and other factors such as personal values, social connections, and life circumstances also influencing well-being.
 
-This research paper delves into the intriguing question of whether a higher level of income is related to a higher level of happiness, specifically examining the impact of both family income and personal income on subjective well-being. We seek to explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship.
+This research paper delves into the intriguing question of whether a higher level of income is related to a higher level of happiness, specifically examining the impact of both family income and personal income on subjective well-being. We seek to explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. Findings shown a loose positive correlation between income and happiness.
 
 # Data {#sec-data}
 
@@ -367,7 +367,7 @@ Overall, most of the findings in this study does support the theory of "perfect 
 
 In conclusion, while the theory of a "perfect salary" does hold some truth, individual circumstances and priorities must also be considered when determining the optimal income for happiness and well-being. It is important for individuals to reflect on their own values and priorities when making decisions about their careers and finances to achieve a healthy work-life balance and overall satisfaction in life.
 
-##  **Wharton study suggestion new findings: People actually are happier when they make more money** {#sec-discussion2}
+## **Wharton study suggestion new findings: People actually are happier when they make more money** {#sec-discussion2}
 
 Unlike the well-known study by Daniel Kahneman and Angus Deaton from Princeton University in 2010, indicated that people tend to feel happier with increasing income only up until a certain point, a new study from the University of Pennsylvania's Wharton School have a different finding. The study found that people's well-being continues to rise with income, even beyond \$75,000. [@cite10] Matthew Killingsworth, the study author and a senior fellow at Wharton who studies human happiness, explained that money provides people with autonomy to make choices about how they live their lives. [@cite9]
 

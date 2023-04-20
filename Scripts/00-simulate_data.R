@@ -56,6 +56,6 @@ simulated_data <-
 
 
 head(simulated_data)
-
+write_csv(simulated_data, "Outputs/data/simulated_data.csv") 
 
 

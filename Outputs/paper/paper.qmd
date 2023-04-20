@@ -1,12 +1,12 @@
 ---
-title: "Does financial ability affect our happiness?"
-subtitle: "Relationship between income and happiness"
+title: "Increasing incomes does shown a positive correlation with happiness level"
+subtitle: "Relationship between income, happiness, and mental health"
 author: 
   - Annie Yan
 thanks: "Code and data are available at: https://github.com/AnnieYan0807/USGSS-analysis-individual-"
 date: "`r Sys.time()`"
 date-format: "D MMMM YYYY"
-abstract: "This research paper investigates the relationship between income and happiness, specifically examining the impact of family income and personal income on subjective well-being. Through a thorough review of existing literature and empirical analysis, we explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. "
+abstract: "This research paper investigates the relationship between income, happiness, and mental state, specifically examining the impact of family income, personal income, and childhood richness on subjective well-being. By conducting a comprehensive analysis of data and modeling, we unravel the positive correlation between income and happiness, while considering various factors that may affect this relationship. "
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -21,68 +21,390 @@ library(tidyverse)
 library(palmerpenguins)
 ```
 
-
 # Introduction
+
 "Life, liberty, and the pursuit of happiness" are words enshrined in the Declaration of Independence of the United States, encapsulating a fundamental human aspiration. The pursuit of happiness has been a timeless and universal quest, driving individuals to seek fulfillment and well-being in various facets of their lives. One significant factor that has often been associated with happiness is income, particularly in the context of family and personal finances.
 
-In today's society, income is often viewed as a crucial determinant of one's standard of living, social status, and overall well-being. It is widely believed that a higher level of income can lead to increased happiness and satisfaction with life. However, the relationship between income and happiness is complex and multifaceted. While it is evident that money plays a significant role in meeting basic needs such as food, shelter, and education, research on the link between income and happiness has yielded mixed findings. Some studies suggest that higher income levels are indeed associated with higher levels of happiness, as increased financial resources provide opportunities for material comforts, greater access to healthcare and education, and enhanced social experiences. () On the other hand, other research indicates that the relationship between income and happiness may not be as straightforward, with diminishing returns on happiness as income levels rise, and other factors such as personal values, social connections, and life circumstances also influencing well-being.()
+In today's society, income is often viewed as a crucial determinant of one's standard of living, social status, and overall well-being. It is widely believed that a higher level of income can lead to increased happiness and satisfaction with life. However, the relationship between income and happiness is complex and multifaceted. While it is evident that money plays a significant role in meeting basic needs such as food, shelter, and education, research on the link between income and happiness has yielded mixed findings. Some studies suggest that higher income levels are indeed associated with higher levels of happiness, as increased financial resources provide opportunities for material comforts, greater access to healthcare and education, and enhanced social experiences. [@cite10] On the other hand, other research indicates that the relationship between income and happiness may not be as straightforward, with diminishing returns on happiness as income levels rise reaches threshold [@cite8], and other factors such as personal values, social connections, and life circumstances also influencing well-being.
 
-This research paper delves into the intriguing question of whether a higher level of income is related to a higher level of happiness, specifically examining the impact of both family income and personal income on subjective well-being. We seek to explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship. 
+This research paper delves into the intriguing question of whether a higher level of income is related to a higher level of happiness, specifically examining the impact of both family income and personal income on subjective well-being. We seek to explore the nuanced relationship between income and happiness, taking into account various factors that may influence this relationship.
 
 # Data {#sec-data}
 
-## Data Source
-The General Social Survey (GSS) is a national survey conducted in the United States of America that aims to better understand trends in the American adult population's social characteristics and attitudes to better inform research and public policy [@cite3]. Beginning in 1972, this interview-based survey is conducted biennially on five key themes: gender and marriage, current affairs, civil liberties, politics, and religion and spirituality [@cite4]. 
+```{r}
+#| include: false
 
-## Methodology
+## Workspace setup
+library(tidyverse)
+library(reshape2)
+library(dplyr)
+library(haven)
 
-## Variable of Interests
+##read cleaned data
+GSS_cleaned_data <- read_csv(here::here("Outputs/data/GSS_cleaned_data.csv"))
 
-## Overview of Data
+mean_income <- read_csv(here::here("Outputs/data/mean_income.csv"))
+mean_incom16 <- read_csv(here::here("Outputs/data/mean_incom16.csv"))
+mean_rincome <- read_csv(here::here("Outputs/data/mean_rincome.csv"))
 
-## Data Analysis 
+mean_income_2 <- read_csv(here::here("Outputs/data/mean_income_2.csv"))
+mean_incom16_2 <- read_csv(here::here("Outputs/data/mean_incom16_2.csv"))
+mean_rincome_2 <- read_csv(here::here("Outputs/data/mean_rincome_2.csv"))
 
 
+```
+
+## Data Source {#sec-datasource}
+
+The General Social Survey (GSS) is a national survey conducted in the United States of America that aims to better understand trends in the American adult population's social characteristics and attitudes to better inform research and public policy [@cite3]. Beginning in 1972, this interview-based survey is conducted biennially on five key themes: gender and marriage, current affairs, civil liberties, politics, and religion and spirituality [@cite4]. The survey is administered by the National Opinion Research Center (NORC) at the University of Chicago and is funded primarily by the National Science Foundation. Over the years, the GSS has become a valuable resource for researchers, providing insights into the changing attitudes and behaviors of Americans over time. The GSS data are publicly available and can be accessed through a variety of online databases and statistical software packages.
+
+This study utilizes data on income, happiness, and mental health collected by US GSS. The specific variables used will be explained in later sections @sec-variableofinterests . Due to the presence of non-applicable data (e.g., ".r: Refused" and ".i: Inapplicable"), a single year's data is not deemed sufficient. As such, this study examines data from 2014, 2016, and 2018.
+
+This report was created using the R statistical programming language [@R]. The here package was utilized to retrieve files from another folder within the same R project [@here]. For the results and analysis of this report, all figures were created using packages tidyverse [@tidyverse], haven [@haven], reshape2 [@reshape2], and dplyr\[\]. Additionally, the tables were created using the packages knitr [@knitr] and kableExtra [@kableExtra], and the graphs were created using the packages tidyr [@tidyr], and ggplot2 [@ggplot2].
+
+## Methodology {#sec-methdology}
+
+The GSS targets adults aged 18 years and older who reside in households in the United States and can communicate in English or Spanish [@cite5]. Individuals who reside outside of households, such as those in military quarters, nursing homes, institutions, or university dorms, are not part of the GSS population [@cite6]. To create the sampling frame, the NORC National Sampling Frame uses US Census data to stratify US geographic regions by size, select metropolitan areas and non-metropolitan counties within these regions, and then stratify them by race and income before dividing them into blocks [@cite6]. The sample is obtained by interviewers starting from the northwest corner of a block and proceeding from household to household until the quota for both sexes is reached [@cite6].
+
+Thus, the sample for the GSS was an area-probability sample gathered by the clustered sampling approach, as households are selected and then one random member from the household is selected to be included in the survey [@cite6]. Non-response is handled by inputting it in the GSS dataset as one of the following options depending on the method of non-response: ".i: Inapplicable", ".r: Refused", ".d: Do not Know/Cannot Choose", ".s: Skipped on Web",or ".n: No answer".
+
+## Variable of Interests {#sec-variableofinterests}
+
+This report examines a total of 7 variables for analysis, which are listed below. The study specifically focuses on the relationship between income and happiness, and selects 5 factors that are predicted to have an impact on this relationship. Happiness level will be measured by variable happy with respondents self-report on the level of general happiness. Mental health state will be measured using self-reported data on days of poor mental health within the past 30 days. Lower number of days of poor mental health will indicate a better level of mental health state. To ensure the research results can be quantified, we have converted the qualitative responses in the variables "happy" and "mntlhlth" into numerical values.
+
+To better understand which factors have the strongest effect on happiness and mental health, we compare three specific income-related variables, namely incom16, income, and rincome, with general happiness and the number of days of poor mental health experienced in the past 30 days respectively. Additionally, the "year" variable has been limited to the years 2014, 2016, and 2018, allowing us to conduct a study that is both data-sufficient and up-to-date.
+
+-   **year**: GSS year for this respondent
+-   **id\_**: Respondent id number
+-   **incom16**: Respondents' family income when 16 yrs old
+-   **income**: Total family income
+-   **rincome**: Respondents personal income
+-   **happy**: General happiness
+-   **mntlhlth**: days of poor mental health past 30 days
+
+This study seeks to provide insight into the complex relationship between income, happiness, and mental health, by analyzing a range of relevant variables and controlling for potential confounding factors.
+
+## Overview of Data {#sec-overviewofdata}
+
+As mentioned, this research used data gathered from 2014, 2016, and 2018. The figures below depict the number of participants and their responses to the questions on general happiness and days of poor mental health over the past 30 days. To facilitate quantitative analysis, this study converted subjective responses into numerical data. In terms of general happiness, a rating of 1 indicates "Not too happy", while 2 stands for "Pretty happy", and 3 represents "Very happy". This study uses quantitative data of number of days of poor mental in past 30 days, to indicate mental health state. The graphs have been adjusted to exclude inapplicable data, such as ".i: Inapplicable", ".r: Refused", ".d: Do not Know/Cannot Choose", ".s: Skipped on Web",or ".n: No answer".
+
+```{r}
+#| label: fig-overallpool
+#| fig-cap: Respondents pool of general happiness and days of poor mental health past 30 days
+#| fig-subcap: ["Respondents pool of general happiness", "Respondents pool of days of poor mental health past 30 days"]
+#| layout-ncol: 2
+#| echo: false
+#| warning: false
+
+GSS_cleaned_data$year = as.character(GSS_cleaned_data$year)
+
+# Overall Pool
+GSS_cleaned_data  |>
+  ggplot(mapping = aes(x = happy, fill = year)) + 
+  theme(axis.text.x = element_text(angle = 45,hjust=1)) +
+  geom_bar(position = "dodge2")+
+  labs(x = "General Happiness", y = "Number of Respondents", fill = "Year")
+
+GSS_cleaned_data |>
+  ggplot(mapping = aes(x = mntlhlth, fill = year)) + 
+  theme(axis.text.x = element_text(angle = 45,hjust=1)) +
+  geom_bar(position = "dodge2")+
+  labs(x = "Days of poor mental health past 30 days", y = "Number of Respondents", fill = "Year")
 
 
-# Model
+```
+
+Based on the data presented in @fig-overallpool-1 , it can be observed that the majority of respondents answered "Pretty happy" in all three years. The number of people who answered "Not too happy" and "Very happy" are relatively close. In 2016, there were more respondents who answered "Not too happy" with a ranking of 1 compared to the number of people who answered "Very happy" with a ranking of 3. However, the situation was the opposite in 2014 and 2018, where the number of respondents who answered "Very happy" with a ranking of 3 was higher than those who answered "Not too happy" with a ranking of 1.
+
+It is also worth noting that the number of respondents who answered the question on general happiness was the highest in 2018. Furthermore, @fig-overallpool-1 shows a normal distribution, with the highest peak occurring at ranking 2 "Pretty happy". This indicates that most respondents reported being relatively happy with their lives.
+
+These findings suggest that, in general, people tend to report being "Pretty happy" with their lives, with a relatively even distribution between those who report being "Not too happy" and "Very happy". The results also highlight some fluctuations in responses over the years, which could be further investigated in future research.
+
+The graph depicted in @fig-overallpool-2 displays a left-skewed distribution with its highest peak occurring at 2 days of poor mental health in the past 30 days. Similar to @fig-overallpool-1 , the number of respondents in 2018 was the highest. Over 90 respondents reported having 2 days of poor mental health in both 2018 and 2016. Most respondents showed a trend of experiencing less than 5 days of poor mental health within a month. However, there were two small peaks at 7 days and 15 days, which could be partially influenced by bias, as people may be more inclined to choose numbers like 7 or 15 when counting days.
+
+The graph also revealed that a small proportion of people each year reported experiencing over 20 days of poor mental health within a month, indicating severe mental health issues. These findings could have important implications for mental health interventions and highlight the need for further research in this area.
+
+\newpage
+
+## Data Analysis {#sec-dataanalysis}
+
+To minimize the impact of potential bias resulting from selective survey responses and the number of respondents impacting results, this study utilized three income-related variables, namely incom16, income, and rincome, compare with averaged general happiness level and days of poor mental health in past 30 days to examine potential correlations.
+
+```{r}
+#| label: fig-2
+#| echo: false
+#| warning: false
+#| fig-cap: Relationship between average general happiness and total family income
+
+mean_income |> 
+    mutate(variable = fct_relevel(variable, 
+                                "Under $1,000","$1,000 to $2,999", "$3,000 to $3,999", "$4,000 to $4,999", 
+                                "$5,000 to $5,999", "$6,000 to $6,999", "$7,000 to $7,999", 
+                                "$8,000 to $9,999", "$10,000 to $14,999","$15,000 to $19,999",
+                                "$20,000 to $24,999","$25,000 or more")) %>%
+  ggplot(aes(x = variable, y = value)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45,hjust=1), 
+        axis.line = element_line(colour = "black"),
+        title = element_text(size = 12)) +
+  labs(
+    x = "Total Family Income",
+    y = "Average General Happiness"
+  )
+
+```
+
+The relationship between average general happiness and total family income is depicted in @fig-2. Although the graph does not indicate a strong correlation between the two variables, a weak positive connection between total family income and average general happiness can still be observed. The results show that respondents with higher total family income tend to have a higher general happiness level. Specifically, respondents with a total family income ranging from "\$6,000 to \$6,999" reported the highest average general happiness level at 2.3, while those with a total family income under \$1,000 reported the lowest average general happiness level at 1.6. Interestingly, respondents with the highest amount of total family income in this study, at "\$25,000 or more", reported the second highest general happiness level of 2.1.
+
+The graph in @fig-2 displays an increasing trend in general happiness level from family income "under \$1,000" to "\$6,000 to \$6,999", followed by a decline after the peak and reaching its low point at "\$15,000 to \$19,999". The trend then starts to increase again. This study aims to investigate the potential impact of total family income on an individual's general happiness level. The findings suggest a weak correlation between the two variables, indicating that family financial status may have a minor influence on one's general happiness level.
+
+```{r}
+#| label: fig-3
+#| echo: false
+#| warning: false
+#| fig-cap: Relationship between average general happiness and family income when 16 yrs old
+
+mean_incom16 |> 
+  mutate(variable = fct_relevel(variable, 
+                                "FAR BELOW AVERAGE","BELOW AVERAGE", "AVERAGE",  
+                                "ABOVE AVERAGE", "FAR ABOVE AVERAGE")) %>%
+  ggplot(aes(x = variable, y = value)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45,hjust=1), 
+        axis.line = element_line(colour = "black"),
+        title = element_text(size = 12)) +
+  labs(
+    x = "Family income when 16 yrs old",
+    y = "Average General Happiness"
+  )
+```
+
+@fig-3 presents the relationship between family income when 16 years old and average general happiness level. The y-axis represents the happiness level, while the x-axis represents the different levels of family income when the respondents were 16 years old. The graph shows that respondents with a family income level of far below average have the highest average general happiness level at 2.08, while respondents with a below average family income level have the lowest average general happiness level at 2.02. There is a slight trend of decreasing happiness level with increasing family income level. However, the trend is not significant. The variations in general happiness levels among individuals with different family incomes at the age of 16 are also minimal, indicating that family income when 16 years old has only a minor effect on the respondents' current happiness level.
+
+\newpage
+
+```{r}
+#| label: fig-4
+#| echo: false
+#| warning: false
+#| fig-cap: Relationship between average general happiness and personal income
+
+mean_rincome |> 
+  mutate(variable = fct_relevel(variable, 
+                                "LT $1000","$1000 TO 2999", "$3000 TO 3999", "$4000 TO 4999", 
+                                "$5000 TO 5999", "$6000 TO 6999", "$7000 TO 7999", 
+                                "$8000 TO 9999", "$10000 - 14999","$15000 - 19999",
+                                "$20000 - 24999", "$25000 OR MORE")) %>%
+  ggplot(aes(x = variable, y = value)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45,hjust=1), 
+        axis.line = element_line(colour = "black"),
+        title = element_text(size = 12)) +
+  labs(
+    x = "Personal Income",
+    y = "Average General Happiness"
+  )
+
+```
+
+@fig-4 displays the relationship between the personal income and the averaged corresponding general happiness level of the respondents. The x-axis of the graph represents different ranges of personal income, while the y-axis represents the corresponding average general happiness level of the respondents.
+
+Upon examining the graph, there are some noticeable patterns can be observed in the data. Respondents who have personal income at a level of "\$6,000 to \$6,999" report the lowest general happiness level at 1.67. However, people who have personal income at a level of "\$5,000 to \$5,999" reports to have the highest general happiness at 2.25. There is no clear relationship can be found between income and happiness level in this graph. In fact, the happiness level seems to fluctuate across different income brackets.
+
+\newpage
+
+```{r}
+#| label: fig-5
+#| echo: false
+#| warning: false
+#| fig-cap: Relationship between average days of poor mental health past 30 Days and total family income
+
+mean_income_2 |> 
+  mutate(variable = fct_relevel(variable, 
+                                "Under $1,000","$1,000 to $2,999", "$3,000 to $3,999", "$4,000 to $4,999", 
+                                "$5,000 to $5,999", "$6,000 to $6,999", "$7,000 to $7,999", 
+                                "$8,000 to $9,999", "$10,000 to $14,999","$15,000 to $19,999",
+                                "$20,000 to $24,999","$25,000 or more")) %>%
+  ggplot(aes(x = variable, y = value)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45,hjust=1,size = 8), 
+        axis.line = element_line(colour = "black"),
+        title = element_text(size = 8)) +
+  labs(
+    x = "Total Family Income",
+    y = "Average Days of Poor Mental Health Past 30 Days"
+  )
+```
+
+@fig-5 represents the relationship between total family income and the average number of days of poor mental health experienced in the past 30 days. The graph is divided into twelve income categories ranging from "Under \$1,000" to "\$25,000 or more". The graph shows a loose pattern in the relationship between income and mental health. As the income increases, the number of days of poor mental health experienced decreases. Individuals who reported incomes in the highest category of "\$25,000 or more" had a relative low average number of days of poor mental health at 4.89 days. On the other hand, individuals in the lowest income category of "Under \$1,000" had the highest average number of days of poor mental health of 11.71 days.
+
+Interestingly, the data shows a dip in the number of days of poor mental health for individuals earning from "\$6,000 to \$6,999" to "\$8,000 to \$9,999". These respondents report to have the lowest amount of days of poor mental health within a month among all respondents. People who earned "\$6,000 to \$6,999" for total family income have the lowest 3.4 poor mental health days in a month.
+
+\newpage
+
+```{r}
+#| label: fig-6
+#| echo: false
+#| warning: false
+#| fig-cap: Relationship between average days of poor mental health past 30 Days and family income when 16 years old
+
+mean_incom16_2 |> 
+  mutate(variable = fct_relevel(variable, 
+                                "FAR BELOW AVERAGE","BELOW AVERAGE", "AVERAGE",  
+                                "ABOVE AVERAGE", "FAR ABOVE AVERAGE")) %>%
+  ggplot(aes(x = variable, y = value)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45,hjust=1,size = 8), 
+        axis.line = element_line(colour = "black"),
+        title = element_text(size = 8)) +
+  labs(
+    x = "Family Income When 16 Years Old",
+    y = "Average Days of Poor Mental Health Past 30 Days"
+  )
+```
+
+@fig-6 displays the correlation between the average number of days of poor mental health in the past 30 days and respondent's family income at age 16. The chart indicates that individuals who grew up with an above average family income during their teenage years have the lowest number of days with poor mental health, reporting only five days in a month. Interestingly, those who had a far below or far above average family income at age 16 reported the highest number of days with poor mental health in the past 30 days. Respondents who grew up with a family income far below average at age 16 reported 5.75 days of poor mental health per month, while those with a far above average family income reported 5.59 days of poor mental health per month. Notably, the disparity in the number of days with poor mental health among respondents with different family income levels at age 16 is not significant. All groups of respondents reported an average of 4.8 to 5.8 days of poor mental health.
+
+\newpage
+
+```{r}
+#| label: fig-7
+#| echo: false
+#| warning: false
+#| fig-cap: Relationship between average days of poor mental health past 30 Days and personal income
+
+mean_rincome_2 |> 
+  mutate(variable = fct_relevel(variable, 
+                                "LT $1000","$1000 TO 2999", "$3000 TO 3999", "$4000 TO 4999", 
+                                "$5000 TO 5999", "$6000 TO 6999", "$7000 TO 7999", 
+                                "$8000 TO 9999", "$10000 - 14999","$15000 - 19999",
+                                "$20000 - 24999", "$25000 OR MORE")) %>%
+  ggplot(aes(x = variable, y = value)) + 
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45,hjust=1,size = 8), 
+        axis.line = element_line(colour = "black"),
+        title = element_text(size = 8)) +
+  labs(
+    x = "Personal Income",
+    y = "Average Days of Poor Mental Health Past 30 Days"
+  )
+
+```
+
+@fig-7 illustrates the relationship between personal income and the average number of days of poor mental health in the past 30 days. The graph does not reveal a clear correlation between personal income and poor mental health days within a month. There are two noticeable peaks in the graph. The first peak occurs when respondents report a personal income range of "\$15,000 - \$19,999", with an average of more than 7 days of poor mental health within a month. The second peak occurs among people who have a personal income range of "\$4,000 to \$4,999", reporting an average of around 6.7 days of poor mental health in a month. The lowest average days of poor mental health per month were reported by people who earn between "\$7,000 to \$7,999", with an average of 3.55 days.
+
+\newpage
+
+# Model {#sec-model}
 
 $$
-Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}
-$$ {#eq-bayes}
+log(\frac{\hat{p}}{1-\hat{p}}) = \beta_0 + \beta_1x_{income} + \beta_2x_{incom16} + \beta_3x_{rincome}
+$$ {#eq-1}
 
-@eq-bayes seems useful, eh?
+This report utilized the multiple linear regression model @eq-1 to model the relationship between a set of predictor variables and a binary response variable, general happiness. In order to analysis general happiness within this model, we mutate the format of respondent's answer into binary form. Respondent who answers "Not too happy" are count as 0 in general happiness level. Respondent who answers "Pretty happy" are count as 0.5 in general happiness level. Respondent who answers "Very happy" are count as 1 in general happiness level. The output of this linear regression model represent one's happiness level based on three income related predictor variables as listed below:
 
-Here's a dumb example of how to use some references: In paper we run our analysis in `R` [@citeR]. We also use the `tidyverse` which was written by @thereferencecanbewhatever If we were interested in baseball data then @citeLahman could be useful. 
+-   **incom16**: respondents family income when 16 years old
 
-We can use maths by including latex between dollar signs, for instance $\theta$.
+-   **income**: total family income
+
+-   **rincome**: respondents income
+
+This equation models the relationship between the log odds of the binary outcome and the linear combination of the predictor variables. The coefficients of the three income related predictor variables represent the change in the log odds of the binary outcome associated with a one-unit change in the corresponding predictor variable, while holding all other predictor variables constant. The mental health state data will not be model as it can not be convert to binary variable.
+
+\newpage
+
+```{r}
+#| label: fig-8
+#| echo: false
+#| warning: false
+#| fig-cap: Normal Q-Q (quantile-quantile) plot 
 
 
-# Results
+GSS_cleaned_data_1 <- GSS_cleaned_data
 
-# Discussion
+GSS_cleaned_data_1$happy [GSS_cleaned_data_1$happy == 1] <- 0
+GSS_cleaned_data_1$happy [GSS_cleaned_data_1$happy == 2] <- 0.5
+GSS_cleaned_data_1$happy [GSS_cleaned_data_1$happy == 3] <- 1
 
-## First discussion point {#sec-first-point}
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+model1 = glm(happy ~ incom16 + income + rincome, data = GSS_cleaned_data_1, family = "binomial")
 
-## Second discussion point
+# fitted values from the model
+fitted = fitted(model1)
 
-## Third discussion point
+# showing the distribution of the fitted values
+qqnorm(fitted, pch=1,frame=FALSE)
+qqline(fitted,lwd=2)
+```
+
+This normal Q-Q (quantile-quantile) plot helps to check the normality assumption for a binary response variable, general happiness level, in relation to predictor variables including incom16 (respondent's family income when 16 years old), income (total family income), and rincome (respondent's income). The plot compares the observed quantiles of the response variable to the theoretical quantiles of a normal distribution.
+
+The points on the plot performed a line slightly deviation from a straight line, it suggests that the distribution of the response variable may not be perfectly normally distributed, but may still be approximately normal. Although further investigation will be needed, from this graph we can see a loose positive correlation between income related factors and happiness level.
+
+\newpage
+
+# Results {#sec-results}
+
+This study aimed to investigate the potential impact of income on an individual's general happiness level and mental health. To minimize the impact of potential bias resulting from selective survey responses, the study utilized three income-related variables, namely respondents family income when 16 years old, total family income, and personal income, compared with averaged general happiness level and days of poor mental health in the past 30 days. The selection of respondents family income when 16 years old is aiming to testify any potential impact on one's general happiness level or mental healthy due to family richness during childhood. The selection of variable total family income aiming to examine how family backgrounds and financial ability could affect one's general happiness level or mental healthy. Lastly, personal income will be use to investigate the power of personal financial status on general happiness level or mental healthy.
+
+The findings suggest a weak correlation between income and general happiness level, indicating that family financial status may have a minor influence on one's general happiness level. Similarly, income did not reveal a clear correlation with poor mental health days within a month. However, the data showed that individuals with higher total family income tend to have a lower number of days of poor mental health, and respondents who grew up with an average family income during their teenage years have the lowest number of days with poor mental health. The variations in general happiness levels among individuals with different family incomes at the age of 16 are minimal, indicating that family income when 16 years old has only a minor effect on the respondents' current happiness level. Overall, the findings suggest that while income may not have a significant impact on general happiness levels and poor mental health days, other factors may play a more crucial role in determining an individual's well-being.
+
+\newpage
+
+# Discussion {#sec-discussion}
+
+## "Perfect Salary" Threshold Theory {#sec-discussion1}
+
+In a 2010 study conducted by Daniel Kahneman and Angus Deaton from Princeton University, it was discovered that individuals typically experience an increase in happiness as their income rises, but only up to a certain point. [@cite8] The study revealed that the point of maximum happiness is reached at an annual income of approximately \$75,000 per person. Sonja Lyubomirsky, a professor of psychology at the University of California who specializes in the study of happiness, explained that beyond this threshold, happiness levels tend to plateau. [@cite7]
+
+Break down the annual personal income of \$75,000 into monthly salary, we can found that people who earn an average of \$6,250 per month have the "perfect salary". To discuss whether or not this theory was correct in this study, we look at the group of respondents who reports to have income within the range of "\$6,000 to \$6,999".
+
+@fig-2 depicts relationship between average general happiness and total family income. Respondents who have total family income within the range of "\$6,000 to \$6,999" have the highest average general happiness. The threshold theory have prove here. Similar findings occur in @fig-5, respondents with total family income ranging from "\$6,000 to \$6,999" have the lowest number of days of poor mental health in past 30 days. These findings may indicate that the threshold theory may be true when comes to total family incomes.
+
+However, it is not the case in personal income data. Respondents with personal income range from "\$6,000 to \$6,999" presents a different result when comes to general happiness level and mental health state. While @fig-4 indicates that respondents with personal income range from "\$6,000 to \$6,999" have the lowest average general happiness, @fig-7 shown that this group of respondents have the second lowest poor mental health days in a month.
+
+Overall, most of the findings in this study does support the theory of "perfect salary". Reasons on skewed data may be result by various factors such as differences in cost of living, personal circumstances, and individual priorities. For example, people living in more expensive cities may require a higher income to achieve the same level of happiness and financial security as those living in less expensive areas. Personal circumstances such as family size and health conditions can also affect the amount of income needed to achieve a certain level of well-being. Additionally, individual priorities and values play a crucial role in determining the optimal salary for happiness. For some, pursuing a high-paying career may be a top priority, while others may prioritize work-life balance and time with family over financial gain.
+
+In conclusion, while the theory of a "perfect salary" does hold some truth, individual circumstances and priorities must also be considered when determining the optimal income for happiness and well-being. It is important for individuals to reflect on their own values and priorities when making decisions about their careers and finances to achieve a healthy work-life balance and overall satisfaction in life.
+
+##  **Wharton study suggestion new findings: People actually are happier when they make more money** {#sec-discussion2}
+
+Unlike the well-known study by Daniel Kahneman and Angus Deaton from Princeton University in 2010, indicated that people tend to feel happier with increasing income only up until a certain point, a new study from the University of Pennsylvania's Wharton School have a different finding. The study found that people's well-being continues to rise with income, even beyond \$75,000. [@cite10] Matthew Killingsworth, the study author and a senior fellow at Wharton who studies human happiness, explained that money provides people with autonomy to make choices about how they live their lives. [@cite9]
+
+The study involved 33,391 employed people aged 18 to 65, who used a smartphone app that prompted them to check in on their emotions throughout the day. The app asked them to rate their current emotional state and overall life satisfaction. The findings are based on seven years of data collection, and Killingsworth believes that the relationship between income and well-being would hold true regardless of the time period. [@cite9]
+
+The data showed that all forms of well-being continued to increase with income across a wide range of income levels, and did not plateau at \$75,000 a year. This suggests that as people advance in their careers and their incomes rise, it has the potential to genuinely improve their lives, rather than hitting a ceiling once they reach a certain income level. On a broader societal level, this could mean that continued economic growth in the future may still have the ability to improve people's well-being.
+
+Although the individual analysis on income-related factors in @sec-dataanalysis did not support the findings of the Wharton study, a multiple linear regression model was used to examine the relationship between general happiness and income-related predictor variables. The results showed a somewhat linear relationship, as evidenced by the normal Q-Q plot in @fig-8. The plot suggests a relative normal distribution, indicating a positive linear relationship between general happiness and income-related factors. While this finding is not conclusive and requires further investigation, it partially supports the findings of Matthew Killingsworth's study in Wharton.
+
+It is worth considering that the relationship between income and happiness is not straightforward, as other factors such as social support, health, and personality traits also play a role. Therefore, while income may contribute to happiness, it is not the sole determinant. Further research is needed to gain a more comprehensive understanding of the relationship between income and happiness.
+
+## How childhood richness impact one's mental health {#sec-discussion3}
+
+One key finding in this study is that respondents who grew up with an average family income during their teenage years have the lowest number of days with poor mental health. In contract, those who had a far below or far above average family income at age 16 reported the highest number of days with poor mental health in the past 30 days. As we are using response on number of days with poor mental health in the past 30 days as the indicator of mental health state in this study, we can conclude that people who have above averaged family income have the best mental health state when grow up, while people who have family income fails to extremes does not have a positive impact on their mental health state after grow up.
+
+To explain people who have far below averaged family income during childhood have worst mental health state after grow up, we did some research. Growing up in poverty can have negative effects on mental health, such as depression and anxiety, due to increased stressors and reduced access to resources. [@cite12] In contrast, growing up with an above average family income may provide more stability and support, which can promote better mental health outcomes. Additionally, having an average family income during teenage years may indicate a level of financial security that can reduce stress related to economic instability, which is known to negatively impact mental health[@cite13]. Therefore, it is plausible that respondents who grew up with an above average family income during their teenage years had lower levels of stress and higher levels of social support, which contributed to their lower number of days with poor mental health in adulthood.
+
+But why respondent who reports to have far above average family income when 16 still have a poor mental health state compare to others? One possible reason for this phenomenon could be the pressure and expectations associated with higher income levels. Individuals who come from affluent backgrounds may experience pressure to maintain their social status and perform well in their professional lives, leading to increased stress and anxiety levels. [@cite15] Additionally, higher income levels can lead to increased materialism and a focus on external validation, which has been linked to lower levels of happiness and well-being [@cite11].
+
+Another factor that may contribute to this result is the impact of social comparison. Individuals from higher-income families may be more likely to compare themselves to others in their social circle or in the media, leading to feelings of inadequacy or insecurity [@cite14]. This can create a sense of pressure to keep up with societal expectations, leading to higher levels of stress and anxiety.
+
+In conclusion, this study highlights the importance of family income during teenage years in predicting adult mental health outcomes. The findings suggest that growing up with an above average family income may provide more stability and support, leading to better mental health outcomes. On the other hand, growing up with far below or far above average family income may have negative effects on mental health due to increased stressors and pressure. However, it is important to note that having a high family income is not a guarantee of good mental health, as individuals may experience pressure and expectations associated with higher income levels, leading to increased stress and anxiety. Further research is needed to explore these factors and inform interventions to improve mental health outcomes for individuals from all socioeconomic backgrounds.
 
 ## Weaknesses and next steps
 
+While the study provides some useful insights on the potential impact of total family income on an individual's general happiness level and the average number of days with poor mental health, there are some weaknesses that need to be addressed. One of the limitations of the study is the potential for bias resulting from selective survey responses and the number of respondents impacting the results. The sampling is unclear if the respondents are representative of the larger population.
 
+Volunteer bias is another potential limitation that should be considered when interpreting the results of the study. Volunteer bias refers to the possibility that individuals who choose to participate in surveys or studies are systematically different from those who do not participate. In the case of this study, individuals who have poor mental health or are unhappy with their life may be less likely to participate in the survey, leading to an over-representation of individuals with higher mental health and happiness levels in the sample. This bias can lead to an overestimation of the relationship between income and mental health and happiness levels, and the findings should be interpreted with caution.
 
+Besides, this study relies on self-reported data, which may be subject to response bias. Respondents may under-report or over-report their general happiness level and the number of days with poor mental health, leading to inaccurate results. The study would benefit from using a standardized questionnaire to measure mental health and happiness levels, such as the World Health Organization's WHO-5 Well-Being Index or the General Health Questionnaire.
 
+Moreover, the study solely focus on income-related variables, does not examine information about the demographics of the respondents, such as age, gender, and ethnicity, which can influence their general happiness level and the number of days with poor mental health. It also does not take into account other factors, like impact of education level, job satisfaction, social support, and lifestyle factors, that can affect general happiness level and the number of days with poor mental health. These factors can influence the respondents' mental health and happiness levels, and their exclusion limits the scope of the study's findings.
+
+The next step of the study could be to address the limitations and weaknesses of the current study by including diverse demographics, and incorporating other variables that can affect mental health and happiness levels. A longitudinal study could also be conducted to track changes in mental health and happiness levels over time and investigate the potential causal relationships between income and mental health.
+
+In conclusion, the study provides some insights into the relationship between income and mental health and happiness levels. However, it has some limitations that need to be addressed, and the findings should be interpreted with caution. By addressing the weaknesses of the study, the next step could be to conduct a more comprehensive and rigorous investigation of the factors that influence mental health and happiness levels.
 
 \newpage
-\appendix
-# Appendix {-}
 
-
-
-\newpage
 # References
-
-

@@ -1,11 +1,11 @@
 #### Preamble ####
-# Purpose: Cleans.... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Data: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Clean Data
+# Author: Annie Yan
+# Data: 16 April 2023 
+# Contact: zixin.yan@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites:None
+# Any other information needed?None
 
 
 #### Workspace setup ####
@@ -36,9 +36,6 @@ GSS_data$happy [GSS_data$happy == '.s:  Skipped on Web'] <- 0
 GSS_data$happy [GSS_data$happy == '	.d:  Do not Know/Cannot Choose'] <- 0
 GSS_data$happy = as.numeric(GSS_data$happy)
 
-## Delete not applied data (Inapplicable, No answer, Skipped, Do not know)
-GSS_data %>% filter(!grepl(0, happy))
-
 
 ## Clean Mental Health data
 
@@ -52,10 +49,12 @@ GSS_data$mntlhlth = as.numeric(GSS_data$mntlhlth)
 GSS_data <- GSS_data[!grepl(0, GSS_data$happy),]
 GSS_data <- GSS_data[!grepl(0, GSS_data$mntlhlth),]
 
+## Change year as chr
 
-GSS_cleaned_data <- GSS_data
+GSS_data$year = as.character(GSS_data$year)
 
-
+## limite data only within year of 2014, 2016, 2018
+GSS_cleaned_data <- GSS_data %>% filter(year == 2014 | year == 2016 | year == 2018)
 
 
 
@@ -77,8 +76,7 @@ mean_incom16<- GSS_cleaned_data %>%
 mean_incom16 <- melt(mean_incom16)  #the function melt reshapes it from wide to long
 # delete not applied data
 mean_incom16 <- mean_incom16[-1,]
-mean_incom16 <- mean_incom16[-1,]
-mean_incom16 <- mean_incom16[-1,]
+
 
 
 
@@ -112,7 +110,7 @@ mean_rincome <- melt(mean_rincome)  #the function melt reshapes it from wide to 
 mean_rincome <- mean_rincome[-12,]
 mean_rincome <- mean_rincome[-12,]
 mean_rincome <- mean_rincome[-12,]
-mean_rincome <- mean_rincome[-12,]
+
 
 
 
@@ -137,8 +135,7 @@ mean_incom16_2<- GSS_cleaned_data %>%
 mean_incom16_2 <- melt(mean_incom16_2)  #the function melt reshapes it from wide to long
 # delete not applied data
 mean_incom16_2 <- mean_incom16_2[-1,]
-mean_incom16_2 <- mean_incom16_2[-1,]
-mean_incom16_2 <- mean_incom16_2[-1,]
+
 
 
 
@@ -170,7 +167,7 @@ mean_rincome_2<- melt(mean_rincome_2)  #the function melt reshapes it from wide 
 mean_rincome_2 <- mean_rincome_2[-12,]
 mean_rincome_2 <- mean_rincome_2[-12,]
 mean_rincome_2 <- mean_rincome_2[-12,]
-mean_rincome_2 <- mean_rincome_2[-12,]
+
 
 
 
